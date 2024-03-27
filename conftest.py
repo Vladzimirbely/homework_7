@@ -15,8 +15,3 @@ def create_zip():
     with ZipFile(archive_path, 'w', ZIP_DEFLATED) as zf:
         for file in resources_path.iterdir():
             zf.write(file, arcname=file.name)
-
-    yield
-
-    os.remove(archive_path)
-    os.remove(tmp_path)
