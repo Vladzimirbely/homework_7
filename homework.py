@@ -1,11 +1,7 @@
-import os
 from zipfile import ZipFile
-from openpyxl import load_workbook
-import pathlib
-
-resources_path = pathlib.Path(os.path.join(os.path.dirname(__file__), os.path.abspath('resources')))
-tmp_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources/tmp')
-archive_path = os.path.join(tmp_path, 'archive.zip')
+from pypdf import PdfReader
+from openpyxl.reader.excel import load_workbook
+from paths import *
 
 def test_write_xlsx():
     with ZipFile(archive_path, 'r') as zf:
@@ -28,3 +24,9 @@ def test_write_xlsx():
 
         assert archive_value == default_value
         assert default.sheetnames == archive.sheetnames
+
+def test_write_pdf():
+    archive = PdfReader('resources/Pdf.pdf')
+    default = PdfReader(os.path.join(resources_path, 'Pdf.pdf'))
+    assert len(default.pages) == len(archive.pages)
+    assert default.pages[0].extract_text() == archive.pages[0].extract_text()
