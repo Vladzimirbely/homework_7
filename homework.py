@@ -26,7 +26,8 @@ def test_write_xlsx():
         assert default.sheetnames == archive.sheetnames
 
 def test_write_pdf():
-    archive = PdfReader('resources/Pdf.pdf')
-    default = PdfReader(os.path.join(resources_path, 'Pdf.pdf'))
-    assert len(default.pages) == len(archive.pages)
-    assert default.pages[0].extract_text() == archive.pages[0].extract_text()
+    with ZipFile(archive_path, 'r') as zf:
+        archive = PdfReader(zf.open('Pdf.pdf'))
+        default = PdfReader(os.path.join(resources_path, 'Pdf.pdf'))
+        assert len(archive.pages) == len(default.pages)
+        assert archive.pages[0].extract_text() == default.pages[0].extract_text()
