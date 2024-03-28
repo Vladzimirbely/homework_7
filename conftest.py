@@ -1,6 +1,4 @@
-import os
 import shutil
-
 import pytest
 from zipfile import ZipFile, ZIP_DEFLATED
 from paths import *

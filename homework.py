@@ -1,9 +1,15 @@
 from zipfile import ZipFile
-from pypdf import PdfReader
 from openpyxl.reader.excel import load_workbook
+from pypdf import PdfReader
 from paths import *
 
-def test_write_xlsx():
+def test_read_csv():
+    with ZipFile(archive_path, 'r') as zf:
+        archive = zf.read('Csv.csv').decode()
+        default = open(os.path.join(resources_path, 'Csv.csv')).read()
+        assert archive == default
+
+def test_read_xlsx():
     with ZipFile(archive_path, 'r') as zf:
         archive = load_workbook(zf.open('Excel.xlsx'))
         default = load_workbook(os.path.join(resources_path, 'Excel.xlsx'))
@@ -25,7 +31,7 @@ def test_write_xlsx():
         assert archive_value == default_value
         assert default.sheetnames == archive.sheetnames
 
-def test_write_pdf():
+def test_read_pdf():
     with ZipFile(archive_path, 'r') as zf:
         archive = PdfReader(zf.open('Pdf.pdf'))
         default = PdfReader(os.path.join(resources_path, 'Pdf.pdf'))
