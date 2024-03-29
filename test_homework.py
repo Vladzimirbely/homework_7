@@ -24,14 +24,15 @@ def test_read_pdf():
         assert text == 'Пример pdf '
 
 def test_read_xlsx():
-    with ZipFile(archive, 'r') as zip_file:
-        workbook = load_workbook(zip_file.open('Excel.xlsx'))
-        sheet = workbook.active
+    with ZipFile(archive) as zip_file:
+        with zip_file.open('Excel.xlsx') as xlsx_file:
+            workbook = load_workbook(xlsx_file)
+            sheet = workbook.active
 
-        assert sheet.cell(row=2, column=2).value == 'Hello'
+            assert sheet.cell(row=2, column=2).value == 'Hello'
 
-        for cols in sheet.iter_cols():
-            assert len(cols) == 5
+            for cols in sheet.iter_cols():
+                assert len(cols) == 5
 
-        for rows in sheet.iter_rows():
-            assert len(rows) == 2
+            for rows in sheet.iter_rows():
+                assert len(rows) == 2
