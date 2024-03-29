@@ -23,7 +23,7 @@ def test_read_pdf():
         assert number_of_pages == 1
         assert text == 'Пример pdf '
 
-def test_read_pdf():
+def test_read_xlsx():
     with ZipFile(archive, 'r') as zip_file:
         workbook = load_workbook(zip_file.open('Excel.xlsx'))
         sheet = workbook.active
